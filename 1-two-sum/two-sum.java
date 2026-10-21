@@ -2,46 +2,32 @@ class Solution {
     public int[] twoSum(int[] nums, int target) {
         int n = nums.length;
 
-        if(n<2){
+        if (n < 2) {
             return new int[0];
         }
-         long[][] valueIndexPairs = new long[n][2];
-
-         for(int index = 0; index < n; index++){
-            valueIndexPairs[index][0] = nums[index];
-            valueIndexPairs[index][1] = index;
-         }
-
-         Arrays.sort(
-            valueIndexPairs,
-            Comparator.comparingLong(pair -> pair[0])
-         );
-
-         int left = 0;
-        int right = n - 1;
-
-        while (left < right) {
-            long sum =
-                valueIndexPairs[left][0] +
-                valueIndexPairs[right][0];
-
-    
-            if (sum == target) {
+ 
+        Map<Long, Integer> valueToIndex = new HashMap<>();
+ 
+        for (int current = 0; current < n; current++) {
+            long complement =
+                (long) target - nums[current];
+ 
+            /*
+             * Check before insertion so the current
+             * index cannot be paired with itself.
+             */
+            if (valueToIndex.containsKey(complement)) {
                 return new int[]{
-                    (int) valueIndexPairs[left][1],
-                    (int) valueIndexPairs[right][1]
+                    valueToIndex.get(complement),
+                    current
                 };
             }
-
-            if (sum < target) {
-                left++;
-            }
-            
-            else {
-                right--;
-            }
+ 
+            // Save this value for elements that appear later.
+            valueToIndex.put((long) nums[current], current);
         }
-
+ 
+        // No valid pair exists.
         return new int[0];
     }
 }
