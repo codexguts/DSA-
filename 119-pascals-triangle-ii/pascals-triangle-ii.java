@@ -1,20 +1,15 @@
 class Solution {
     public List<Integer> getRow(int rowIndex) {
-        List<List<Integer>> triangle = new ArrayList<>();
+        List<Integer>  row = new ArrayList<>();
 
-        for(int row=0; row<=rowIndex; row++){
-            List<Integer> current = new ArrayList<>();
+        long current =1;
+        row.add(1);
 
-            for(int col=0; col<=row; col++){
-                current.add(1);
-            }
+        for(int col=1; col<=rowIndex; col++){
+            current = current * (rowIndex - col +1)/col;
 
-            for(int col=1; col<row; col++){
-                int value = triangle.get(row-1).get(col-1) + triangle.get(row-1).get(col);
-                current.set(col, value);
-            }
-            triangle.add(current);
+            row.add((int) current);
         }
-        return triangle.get(rowIndex);
+        return row;
     }
 }
