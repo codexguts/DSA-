@@ -12,10 +12,7 @@ class Solution {
             long complement =
                 (long) target - nums[current];
  
-            /*
-             * Check before insertion so the current
-             * index cannot be paired with itself.
-             */
+
             if (valueToIndex.containsKey(complement)) {
                 return new int[]{
                     valueToIndex.get(complement),
@@ -23,11 +20,9 @@ class Solution {
                 };
             }
  
-            // Save this value for elements that appear later.
             valueToIndex.put((long) nums[current], current);
         }
  
-        // No valid pair exists.
         return new int[0];
     }
 }
