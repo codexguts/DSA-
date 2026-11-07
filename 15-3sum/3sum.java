@@ -1,33 +1,56 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         int n = nums.length;
+        List<List<Integer>> ans = new ArrayList<>();
+
         if(n<3){
             return new ArrayList<>();
         }
 
-        Set<List<Integer>> uniquetriplets = new HashSet<>();
+        Arrays.sort(nums);
 
-        for(int i=0; i<n-2; i++){
-        Set<Long> SeenValues = new HashSet<>();
-            for(int j=i+1; j<n;j++){
-                long thirdValue = -((long) nums[i]+nums[j]);
+        for(int fixed=0; fixed<n-2; fixed++){
 
-                if(SeenValues.contains(thirdValue)){
-                    List<Integer> triplet = new ArrayList<>(
-                        Arrays.asList(
-                            nums[i],
-                            nums[j],
-                            (int) thirdValue
-                        )
-                    );
+            if(fixed > 0 && nums[fixed] == nums[fixed - 1]){
+                continue;
+            }
 
-                    Collections.sort(triplet);
-                    uniquetriplets.add(triplet);
-                } 
+            int left = fixed+1;
+            int right = n-1;
 
-                SeenValues.add((long) nums[j]);
+            while(left<right){
+                long sum = 
+                    (long) nums[fixed]+
+                    nums[left]+
+                    nums[right];
+                
+                if(sum<0){
+                    left++;
+                }
+
+                else if(sum>0){
+                    right--;
+                }
+
+                else{
+                    ans.add(Arrays.asList(
+                        nums[fixed],
+                        nums[left],
+                        nums[right]
+                    ));
+
+                    left++;
+                    right--;
+
+                    while(left<right && nums[left] == nums[left-1]){
+                        left++;
+                    }
+                    while(left<right && nums[right] == nums[right+1]){
+                        right--;
+                    }
+                }
             }
         }
-        return new ArrayList<>(uniquetriplets);
+        return ans;
     }
 }
