@@ -1,24 +1,23 @@
 class Solution {
     public List<Integer> majorityElement(int[] nums) {
         int n = nums.length;
-        List<Integer> res = new ArrayList<>();
+        List<Integer> ans = new ArrayList<>();
 
-        for(int i=0; i<n; i++){
-            int curr = nums[i];
-            int cnt=0;
-            for(int j=0; j<n; j++){
-                if(curr == nums[j]){
-                    cnt++;
-                }
-            }
-            if(cnt > n/3 && !res.contains(curr)){
-                res.add(curr);
+        Map<Integer, Integer> mpp = new TreeMap<>();
+
+        for(int value : nums){
+            mpp.put(value, mpp.getOrDefault(value,0) +1);
+        }
+
+        for(Map.Entry<Integer, Integer> entry : mpp.entrySet()){
+            if(entry.getValue() > n/3){
+                ans.add(entry.getKey());
             }
 
-            if(res.size() == 2){
+            if(ans.size() == 2){
                 break;
             }
         }
-        return res;
+        return ans;
     }
 }
